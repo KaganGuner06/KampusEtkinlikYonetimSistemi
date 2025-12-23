@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data; // DataTable için gerekli
+using System.Data; 
 using Npgsql; 
 using CampusEventManager.Entities;
 
@@ -8,7 +8,7 @@ namespace CampusEventManager.DataAccess
 {
     public class ClubDal
     {
-        // --- 1. TÜM KULÜPLERİ GETİR ---
+        
         public List<Club> GetAllClubs()
         {
             List<Club> clubs = new List<Club>();
@@ -31,7 +31,7 @@ namespace CampusEventManager.DataAccess
             return clubs;
         }
 
-        // --- 2. ID'ye GÖRE KULÜP GETİR (Detay Sayfası İçin) ---
+        
         public Club GetClubById(int id)
         {
             Club club = null;
@@ -53,7 +53,7 @@ namespace CampusEventManager.DataAccess
             return club;
         }
 
-        // --- 3. KULÜP EKLE ---
+        
         public void AddClub(Club club)
         {
             using (var conn = DbHelper.GetConnection())
@@ -81,12 +81,12 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // --- 4. KULÜP SİL ---
+        
         public void DeleteClub(int clubId)
         {
             using (var conn = DbHelper.GetConnection())
             {
-                // SQL'de ON DELETE CASCADE tanımlı olduğu için üyeler ve etkinlikler otomatik silinir.
+                
                 string sql = "DELETE FROM clubs WHERE club_id = @id";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
@@ -96,12 +96,12 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // --- 5. KULÜBE KATIL (Öğrenci İçin) ---
+        
         public void JoinClub(int clubId, int userId)
         {
             using (var conn = DbHelper.GetConnection())
             {
-                // Zaten üye mi kontrolü
+                
                 string check = "SELECT COUNT(*) FROM club_memberships WHERE club_id=@cid AND user_id=@uid";
                 using (var cmdCheck = new NpgsqlCommand(check, conn))
                 {
@@ -121,7 +121,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // --- 6. KULÜP ÜYELERİNİ GETİR (Tablo İçin) ---
+        
         public DataTable GetClubMembers(int clubId)
         {
             DataTable dt = new DataTable();
@@ -144,7 +144,7 @@ namespace CampusEventManager.DataAccess
             }
             return dt;
         }
-        // --- 7. KULÜP GÜNCELLE ---
+        
 public void UpdateClub(Club club)
 {
     using (var conn = DbHelper.GetConnection())
@@ -177,7 +177,7 @@ public void UpdateClub(Club club)
     }
 }
 
-        // --- YARDIMCI METOT ---
+        
         private Club MapReaderToClub(NpgsqlDataReader dr)
         {
             return new Club

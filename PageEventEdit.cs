@@ -9,22 +9,22 @@ namespace CampusEventManager
 {
     public class PageEventEdit : UserControl
     {
-        private Event _eventToEdit; // Eğer null ise YENİ KAYIT, dolu ise DÜZENLEME
+        private Event _eventToEdit; 
         private EventDal _eventDal = new EventDal();
         private CommonDal _commonDal = new CommonDal();
         private ClubDal _clubDal = new ClubDal(); 
         private bool isEditMode = false;
 
-        // Form Elemanları
+        
         private TextBox txtTitle, txtLocation, txtPosterUrl;
         private TextBox txtDescription;
         private NumericUpDown nudQuota;
         private DateTimePicker dtpDate;
         private ComboBox cmbCategory, cmbClub;
         private CheckBox chkPublish;
-        private Button btnAction; // Kaydet veya Güncelle butonu
+        private Button btnAction; 
 
-        // Constructor: null gelirse yeni kayıt, nesne gelirse düzenleme
+        
         public PageEventEdit(Event evt)
         {
             _eventToEdit = evt;
@@ -36,27 +36,27 @@ namespace CampusEventManager
             
             InitializeUI();
             
-            // Verileri doldurmadan önce listeleri (Kategori/Kulüp) yükle
+            
             LoadLists();
 
             if (isEditMode) 
             {
-                FillFields(); // Düzenleme ise kutuları doldur
+                FillFields(); 
                 btnAction.Text = "DEĞİŞİKLİKLERİ KAYDET";
-                btnAction.BackColor = ColorTranslator.FromHtml("#E67E22"); // Turuncu
+                btnAction.BackColor = ColorTranslator.FromHtml("#E67E22"); 
             }
             else
             {
-                // Yeni kayıt ise varsayılan değerler
+                
                 dtpDate.Value = DateTime.Now.AddDays(1); 
                 btnAction.Text = "YENİ ETKİNLİK OLUŞTUR";
-                btnAction.BackColor = ColorTranslator.FromHtml("#27AE60"); // Yeşil
+                btnAction.BackColor = ColorTranslator.FromHtml("#27AE60"); 
             }
         }
 
         private void InitializeUI()
         {
-            // 1. HEADER
+            
             Panel pnlHeader = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = Color.WhiteSmoke };
             
             Button btnBack = new Button { Text = "← İptal", FlatStyle = FlatStyle.Flat, Location = new Point(20, 15), Size = new Size(100, 30), Cursor = Cursors.Hand };
@@ -68,7 +68,7 @@ namespace CampusEventManager
             pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Controls.Add(btnBack);
 
-            // 2. FORM ALANI
+            
             Panel pnlForm = new Panel { Location = new Point(50, 80), Size = new Size(600, 850), AutoSize = true };
             int y = 0;
             
@@ -108,7 +108,7 @@ namespace CampusEventManager
             pnlForm.Controls.Add(cmbClub);
             y += 70;
 
-            // Resim Alanı
+            
             Label lblPoster = new Label { Text = "Etkinlik Posteri (Dosya Yolu):", Location = new Point(0, y), Font = new Font("Segoe UI", 10, FontStyle.Bold), AutoSize = true };
             txtPosterUrl = new TextBox { Location = new Point(0, y + 25), Width = 380, Height = 30, BorderStyle = BorderStyle.FixedSingle, ReadOnly = true };
             Button btnChooseImg = new Button { Text = "Resim Seç...", Location = new Point(390, y + 23), Width = 110, Height = 30, BackColor = Color.Gray, ForeColor = Color.White, FlatStyle = FlatStyle.Flat };
@@ -122,12 +122,12 @@ namespace CampusEventManager
             pnlForm.Controls.Add(btnChooseImg);
             y += 70;
 
-            // Yayın Durumu
+            
             chkPublish = new CheckBox { Text = "Etkinlik Yayında Olsun", Location = new Point(0, y), Font = new Font("Segoe UI", 10), AutoSize = true, Checked = true };
             pnlForm.Controls.Add(chkPublish);
             y += 50;
 
-            // KAYDET / GÜNCELLE BUTONU
+            
             btnAction = new Button 
             { 
                 Text = "İŞLEMİ TAMAMLA", 
@@ -194,7 +194,7 @@ namespace CampusEventManager
             {
                 if (isEditMode)
                 {
-                    // GÜNCELLEME MODU
+                    
                     _eventToEdit.Title = txtTitle.Text;
                     _eventToEdit.Description = txtDescription.Text;
                     _eventToEdit.EventDate = dtpDate.Value;
@@ -210,7 +210,7 @@ namespace CampusEventManager
                 }
                 else
                 {
-                    // YENİ KAYIT MODU
+                    
                     Event newEvent = new Event
                     {
                         Title = txtTitle.Text,
@@ -229,7 +229,7 @@ namespace CampusEventManager
                     MessageBox.Show("Yeni etkinlik oluşturuldu!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 
-                GoBack(); // Listeye dön
+                GoBack(); 
             }
             catch (Exception ex) { MessageBox.Show("İşlem Hatası: " + ex.Message); }
         }
@@ -239,7 +239,7 @@ namespace CampusEventManager
             FormMain main = (FormMain)this.FindForm();
             if (main != null) {
                 main.pnlContent.Controls.Clear();
-                // İşlem bitince tekrar Etkinlik Listesine dön
+                
                 main.pnlContent.Controls.Add(new PageEvents());
             }
         }

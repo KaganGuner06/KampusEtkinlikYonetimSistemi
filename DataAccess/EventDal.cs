@@ -8,7 +8,7 @@ namespace CampusEventManager.DataAccess
 {
     public class EventDal
     {
-        // 1. KULÜBE AİT ETKİNLİKLER
+        
         public DataTable GetEventsByClub(int clubId)
         {
             DataTable dt = new DataTable();
@@ -37,7 +37,7 @@ namespace CampusEventManager.DataAccess
             return dt;
         }
 
-        // 2. TÜM ETKİNLİKLER
+        
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
@@ -61,28 +61,28 @@ namespace CampusEventManager.DataAccess
             return events;
         }
 
-        // 3. FİLTRELEME METODU (GÜNCELLENDİ: Arama Parametresi Eklendi)
+        
         public List<Event> GetEventsByFilter(int? categoryId, DateTime? minDate, string searchText = null)
         {
             List<Event> events = new List<Event>();
             using (var conn = DbHelper.GetConnection())
             {
-                // Temel Sorgu
+                
                 string sql = @"
                     SELECT e.*, c.club_name,
                     COALESCE((SELECT AVG(rating) FROM event_feedbacks f WHERE f.event_id = e.event_id), 0) AS avg_rating
                     FROM events e
                     JOIN clubs c ON e.club_id = c.club_id
-                    WHERE 1=1"; // Dinamik WHERE koşulları için başlangıç
+                    WHERE 1=1"; 
 
-                // Parametreleri ekle
+                
                 if (categoryId != null && categoryId > 0) 
                     sql += " AND e.category_id = @catId";
                 
                 if (minDate != null) 
                     sql += " AND e.event_date >= @minDate";
 
-                // Arama filtresi (Büyük/Küçük harf duyarsız arama)
+                
                 if (!string.IsNullOrEmpty(searchText))
                     sql += " AND LOWER(e.title) LIKE LOWER(@search)";
 
@@ -108,7 +108,7 @@ namespace CampusEventManager.DataAccess
             return events;
         }
 
-        // 4. TEK ETKİNLİK GETİR
+        
         public Event GetEventById(int id)
         {
             Event evt = null;
@@ -133,7 +133,7 @@ namespace CampusEventManager.DataAccess
             return evt;
         }
 
-        // --- EKLEME / SİLME / GÜNCELLEME ---
+        
         public void AddEvent(Event e)
         {
             using (var conn = DbHelper.GetConnection())
@@ -184,7 +184,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // --- MAP METODU (GÜVENLİ OKUMA) ---
+        
         private Event MapToEvent(NpgsqlDataReader reader)
         {
             var evt = new Event();

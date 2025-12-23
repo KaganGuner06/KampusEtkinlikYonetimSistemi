@@ -7,6 +7,6 @@ namespace CampusEventManager.Entities
         public string FullName { get; set; } = "";
         public string Email { get; set; } = "";
         public string Role { get; set; } = "";
-        public string ProfileImage { get; set; } = "default_user.png"; // YENİ
+        public string ProfileImage { get; set; } = "default_user.png"; 
     }
 }

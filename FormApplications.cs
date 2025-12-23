@@ -9,14 +9,14 @@ namespace CampusEventManager
 {
     public partial class FormApplications : Form
     {
-        // UI Nesneleri
+        
         private ComboBox cmbEvents;
         private Button btnApprove;
         private Button btnReject; 
         private DataGridView dgvApps;
         private Label lblStatus;
 
-        // Veri Katmanı
+        
         private EventDal _eventDal;
         private AppDal _appDal;
 
@@ -24,20 +24,20 @@ namespace CampusEventManager
         {
             this.Text = "Başvuru Onay Merkezi";
             this.Size = new Size(800, 600);
-            this.StartPosition = FormStartPosition.CenterScreen; // Main içinde değilse ortada açsın
+            this.StartPosition = FormStartPosition.CenterScreen; 
 
             _eventDal = new EventDal();
             _appDal = new AppDal();
 
             SetupUI();
             
-            // Form yüklenirken tetiklenmemesi için LoadData'yı burada çağırıyoruz
+            
             LoadData(); 
         }
 
         private void SetupUI()
         {
-            // 1. ÜST PANEL: Etkinlik Filtresi
+            
             Label lblEvent = new Label { 
                 Text = "Başvuruları Görüntülenecek Etkinliği Seçin:", 
                 Location = new Point(20, 20), 
@@ -52,10 +52,10 @@ namespace CampusEventManager
                 Font = new Font("Segoe UI", 10)
             };
             
-            // Olayı bağlıyoruz
+            
             cmbEvents.SelectedIndexChanged += CmbEvents_SelectedIndexChanged;
 
-            // 2. ORTA PANEL: Liste
+            
             dgvApps = new DataGridView();
             dgvApps.Location = new Point(20, 90);
             dgvApps.Size = new Size(740, 350);
@@ -67,9 +67,9 @@ namespace CampusEventManager
             dgvApps.RowHeadersVisible = false;
             dgvApps.AllowUserToAddRows = false;
 
-            // 3. ALT PANEL: İşlem Butonları
             
-            // ONAYLA
+            
+            
             btnApprove = new Button { 
                 Text = "✅ SEÇİLİ BAŞVURUYU ONAYLA", 
                 Location = new Point(20, 450), 
@@ -81,7 +81,7 @@ namespace CampusEventManager
             };
             btnApprove.Click += BtnApprove_Click;
 
-            // REDDET / SİL
+            
             btnReject = new Button { 
                 Text = "❌ SİL / REDDET", 
                 Location = new Point(400, 450), 
@@ -93,7 +93,7 @@ namespace CampusEventManager
             };
             btnReject.Click += BtnReject_Click;
 
-            // Durum Label
+            
             lblStatus = new Label { 
                 Text = "İşlem yapmak için yukarıdan etkinlik seçiniz.", 
                 Location = new Point(20, 510), 
@@ -113,22 +113,22 @@ namespace CampusEventManager
         {
             try
             {
-                // Tetikleyiciyi geçici olarak kapatıyoruz (ÇOK ÖNEMLİ)
+                
                 cmbEvents.SelectedIndexChanged -= CmbEvents_SelectedIndexChanged;
 
                 cmbEvents.DataSource = null;
 
-                // Önce özellikleri ayarla
+                
                 cmbEvents.DisplayMember = "Title";
                 cmbEvents.ValueMember = "EventId";
 
-                // Sonra veriyi ver
+                
                 cmbEvents.DataSource = _eventDal.GetAllEvents();
                 
-                // Seçimi temizle
+                
                 cmbEvents.SelectedIndex = -1;
 
-                // Tetikleyiciyi geri aç
+                
                 cmbEvents.SelectedIndexChanged += CmbEvents_SelectedIndexChanged;
             }
             catch (Exception ex)
@@ -144,27 +144,27 @@ namespace CampusEventManager
 
         private void RefreshGrid()
         {
-            // --- İŞTE ÇÖZÜM BURASI (Defansif Kodlama) ---
             
-            // 1. Eğer hiçbir şey seçili değilse çık.
+            
+            
             if (cmbEvents.SelectedIndex == -1) return;
 
-            // 2. Eğer seçilen değer null ise çık.
+            
             if (cmbEvents.SelectedValue == null) return;
 
-            // 3. KRİTİK KONTROL: Eğer seçilen değer bir "int" (Tam Sayı) DEĞİLSE çık.
-            // Bu sayede 'Event' nesnesi gelirse kod patlamaz, sessizce iptal eder.
+            
+            
             if (!(cmbEvents.SelectedValue is int)) return;
 
             try 
             {
-                // Artık güvenle çevirebiliriz, çünkü yukarıda 'int' olduğunu doğruladık.
+                
                 int eventId = (int)cmbEvents.SelectedValue;
                 
                 DataTable dt = _appDal.GetApplicationsByEvent(eventId);
                 dgvApps.DataSource = dt;
                 
-                // Sütun Ayarları
+                
                 if (dgvApps.Columns.Contains("application_id")) dgvApps.Columns["application_id"].Visible = false;
                 if (dgvApps.Columns.Contains("event_id")) dgvApps.Columns["event_id"].Visible = false;
                 if (dgvApps.Columns.Contains("user_id")) dgvApps.Columns["user_id"].Visible = false;

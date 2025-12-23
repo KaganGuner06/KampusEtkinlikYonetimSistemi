@@ -14,7 +14,7 @@ namespace CampusEventManager
         private AppDal _appDal = new AppDal();
         private Button btnApply;
 
-        // Renk Paleti
+        
         private Color clrHeader = ColorTranslator.FromHtml("#2C3E50");
         private Color clrAccent = ColorTranslator.FromHtml("#1ABC9C");
         private Color clrDelete = ColorTranslator.FromHtml("#E74C3C");
@@ -33,7 +33,7 @@ namespace CampusEventManager
         {
             this.Controls.Clear();
 
-            // 1. ÜST PANEL (Geri Dön)
+            
             Panel pnlTop = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = Color.WhiteSmoke, Padding = new Padding(10) };
             Button btnBack = new Button
             {
@@ -49,7 +49,7 @@ namespace CampusEventManager
             btnBack.Click += (s, e) => GoBackToList();
             pnlTop.Controls.Add(btnBack);
 
-            // 2. ANA İÇERİK PANELİ (FlowLayout kullanarak daha düzenli dizebiliriz)
+            
             Panel pnlContent = new Panel
             {
                 Dock = DockStyle.Top,
@@ -58,7 +58,7 @@ namespace CampusEventManager
                 Padding = new Padding(40)
             };
 
-            // Görsel (Poster)
+            
             PictureBox pbImage = new PictureBox
             {
                 Width = 400,
@@ -74,13 +74,13 @@ namespace CampusEventManager
                     pbImage.Image = Image.FromFile(_currentEvent.PosterUrl); 
             } catch { }
 
-            // --- BİLGİLER BÖLÜMÜ ---
+            
             int infoX = 470;
             
-            // Başlık
+            
             Label lblTitle = new Label { Text = _currentEvent.Title, Font = new Font("Segoe UI", 24, FontStyle.Bold), ForeColor = clrHeader, Location = new Point(infoX, 20), AutoSize = true, MaximumSize = new Size(500, 0) };
 
-            // Puan
+            
             Label lblRating = new Label { 
                 Text = _currentEvent.AverageRating > 0 ? $"⭐ {_currentEvent.AverageRating:N1} / 5" : "⭐ Yeni Etkinlik", 
                 Font = new Font("Segoe UI", 14, FontStyle.Bold), 
@@ -89,7 +89,7 @@ namespace CampusEventManager
                 AutoSize = true 
             };
 
-            // Kulüp Bilgisi
+            
             Label lblClubInfo = new Label { 
                 Text = "Düzenleyen: " + (_currentEvent.ClubName ?? "Bilinmeyen Kulüp"), 
                 Font = new Font("Segoe UI", 12, FontStyle.Bold), 
@@ -98,23 +98,23 @@ namespace CampusEventManager
                 AutoSize = true 
             };
 
-            // Detaylar
+            
             Label lblDate = CreateInfoLabel("📅 Tarih: " + _currentEvent.EventDate.ToString("dd.MM.yyyy HH:mm"), infoX, 140);
             Label lblLoc = CreateInfoLabel("📍 Konum: " + _currentEvent.Location, infoX, 175);
             Label lblQuota = CreateInfoLabel("👥 Kontenjan: " + _currentEvent.Quota + " Kişi", infoX, 210);
             
-            // Açıklama Kısmı
+            
             Label lblDescTitle = new Label { Text = "Etkinlik Hakkında", Font = new Font("Segoe UI", 14, FontStyle.Bold), ForeColor = clrHeader, Location = new Point(40, 360), AutoSize = true };
             Label lblDesc = new Label { Text = _currentEvent.Description, Font = new Font("Segoe UI", 11), ForeColor = Color.DimGray, Location = new Point(40, 400), Width = 900, AutoSize = true, MaximumSize = new Size(900, 0) };
 
-            // 3. AKSİYON PANELİ (Alt Kısım)
+            
             Panel pnlActions = new Panel { Dock = DockStyle.Bottom, Height = 100, BackColor = Color.WhiteSmoke, Padding = new Padding(40, 20, 0, 0) };
 
             string userRole = Session.CurrentUser?.Role?.Trim()?.ToUpper() ?? "STUDENT";
 
             if (userRole == "ADMIN" || userRole == "CLUB_MANAGER")
             {
-                // Admin Panelinde sadece SİL butonu bıraktık (Düzenle kaldırıldı)
+                
                 Button btnDelete = CreateActionButton("ETKİNLİĞİ SİL", clrDelete, new Point(40, 25));
                 btnDelete.Click += BtnDelete_Click;
                 pnlActions.Controls.Add(btnDelete);
@@ -130,14 +130,14 @@ namespace CampusEventManager
             }
             else
             {
-                // Öğrenci için BAŞVUR butonu
+                
                 btnApply = CreateActionButton("ETKİNLİĞE BAŞVUR", clrAccent, new Point(40, 25));
                 btnApply.Width = 300; 
                 btnApply.Click += BtnApply_Click;
                 pnlActions.Controls.Add(btnApply);
             }
 
-            // Kontrolleri Ekleme
+            
             pnlContent.Controls.AddRange(new Control[] { lblDesc, lblDescTitle, lblQuota, lblLoc, lblDate, lblClubInfo, lblRating, lblTitle, pbImage });
             this.Controls.AddRange(new Control[] { pnlContent, pnlActions, pnlTop });
             
@@ -148,7 +148,7 @@ namespace CampusEventManager
         {
             if (Session.CurrentUser == null || btnApply == null) return;
 
-            // Daha önce başvurdu mu kontrolü
+            
             bool isApplied = _appDal.IsUserApplied(Session.CurrentUser.UserId, _currentEvent.EventId);
             if (isApplied)
             {

@@ -10,14 +10,14 @@ namespace CampusEventManager
     {
         private System.ComponentModel.IContainer components = null;
 
-        // Renkler
+        
         private readonly Color clrSidebar = ColorTranslator.FromHtml("#2C3E50");
         private readonly Color clrHeader = Color.White;
         private readonly Color clrBackground = ColorTranslator.FromHtml("#ECF0F1");
         private readonly Color clrAccent = ColorTranslator.FromHtml("#1ABC9C");
         private readonly Color clrText = ColorTranslator.FromHtml("#34495E");
 
-        // UI
+        
         private Panel pnlSidebar;
         private Panel pnlHeader;
         public Panel pnlContent; 
@@ -34,7 +34,7 @@ namespace CampusEventManager
             else
                 lblUserInfo.Text = "Misafir Kullanıcı";
 
-            // BAŞLANGIÇ DEĞİŞİKLİĞİ: Uygulama açıldığında PageHome yüklensin
+            
             LoadPage("Dashboard");
         }
 
@@ -50,7 +50,7 @@ namespace CampusEventManager
 
         private void SetupLayout()
         {
-            // 1. SIDEBAR
+            
             pnlSidebar = new Panel { Dock = DockStyle.Left, Width = 240, BackColor = clrSidebar };
             
             Label lblLogo = new Label {
@@ -60,15 +60,15 @@ namespace CampusEventManager
             };
             pnlSidebar.Controls.Add(lblLogo);
 
-            // --- MENÜ BUTONLARI ---
             
-            // Sabit Butonlar
+            
+            
             AddMenuButton("Ana Sayfa", 90, (s, e) => LoadPage("Dashboard"));
             AddMenuButton("Etkinlikler", 145, (s, e) => LoadPage("Events"));
             AddMenuButton("Kulüpler", 200, (s, e) => LoadPage("Clubs"));
             AddMenuButton("Duyurular", 255, (s, e) => LoadPage("Announcements"));
             AddMenuButton("Profilim", 365, (s, e) => LoadPage("Profile"));
-            // --- ROL BAZLI BUTONLAR ---
+            
             string userRole = Session.CurrentUser?.Role?.Trim()?.ToUpper() ?? "";
 
             if (userRole == "STUDENT")
@@ -85,7 +85,7 @@ namespace CampusEventManager
                 });
             }
 
-            // Çıkış Butonu
+            
             Button btnExit = new Button {
                 Text = "  Çıkış Yap", Dock = DockStyle.Bottom, Height = 50,
                 FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(192, 57, 43),
@@ -100,7 +100,7 @@ namespace CampusEventManager
             };
             pnlSidebar.Controls.Add(btnExit);
 
-            // 2. HEADER
+            
             pnlHeader = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = clrHeader };
             
             lblHeaderTitle = new Label {
@@ -125,7 +125,7 @@ namespace CampusEventManager
             pnlHeader.Controls.Add(lblMin);
             pnlHeader.MouseDown += Form_MouseDown;
 
-            // 3. CONTENT
+            
             pnlContent = new Panel { Dock = DockStyle.Fill, BackColor = clrBackground, Padding = new Padding(20) };
 
             this.Controls.Add(pnlContent);
@@ -148,7 +148,7 @@ namespace CampusEventManager
             pnlSidebar.Controls.Add(btn);
         }
 
-        // --- KRİTİK DEĞİŞİKLİK BURADA YAPILDI ---
+        
         private void LoadPage(string page)
         {
             pnlContent.Controls.Clear();
@@ -166,8 +166,8 @@ namespace CampusEventManager
             switch (page)
             {
                 case "Dashboard":
-                    // Dashboard butonuna basıldığında artık PageDashboard değil,
-                    // Senin istediğin resimli PageHome sayfası yüklenecek.
+                    
+                    
                     pnlContent.Controls.Add(new PageHome());
                     break;
                 case "Events":

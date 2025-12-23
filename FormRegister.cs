@@ -9,14 +9,14 @@ namespace CampusEventManager
 {
     public partial class FormRegister : Form
     {
-        // Renkler
+        
         private readonly Color clrSidebar = ColorTranslator.FromHtml("#2C3E50");
         private readonly Color clrBackground = ColorTranslator.FromHtml("#ECF0F1");
-        private readonly Color clrAccent = ColorTranslator.FromHtml("#27AE60"); // Yeşil
+        private readonly Color clrAccent = ColorTranslator.FromHtml("#27AE60"); 
         private readonly Color clrText = ColorTranslator.FromHtml("#34495E");
 
         private UserDal _userDal = new UserDal();
-        private TextBox txtUsername, txtName, txtEmail, txtPassword; // txtUsername eklendi
+        private TextBox txtUsername, txtName, txtEmail, txtPassword; 
 
         public FormRegister()
         {
@@ -27,7 +27,7 @@ namespace CampusEventManager
         private void InitializeComponent()
         {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 560); // Boyut biraz artırıldı
+            this.ClientSize = new System.Drawing.Size(800, 560); 
             this.FormBorderStyle = FormBorderStyle.None;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Kayıt Ol";
@@ -35,13 +35,13 @@ namespace CampusEventManager
 
         private void SetupUI()
         {
-            // 1. SOL TARAF (Sidebar)
+            
             Panel pnlLeft = new Panel { Dock = DockStyle.Left, Width = 260, BackColor = clrSidebar };
             Label lblBrand = new Label { Text = "ARAMIZA\nKATIL", ForeColor = Color.White, Font = new Font("Segoe UI", 20, FontStyle.Bold), AutoSize = false, TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Fill };
             pnlLeft.Controls.Add(lblBrand);
             this.Controls.Add(pnlLeft);
 
-            // 2. SAĞ TARAF (Form)
+            
             this.BackColor = clrBackground;
 
             Label lblClose = new Label { Text = "X", ForeColor = clrText, Font = new Font("Segoe UI", 12, FontStyle.Bold), Location = new Point(760, 10), Cursor = Cursors.Hand, AutoSize = true };
@@ -51,10 +51,10 @@ namespace CampusEventManager
             Label lblTitle = new Label { Text = "ÖĞRENCİ KAYDI", ForeColor = clrText, Font = new Font("Segoe UI", 18, FontStyle.Regular), Location = new Point(300, 30), AutoSize = true };
             this.Controls.Add(lblTitle);
 
-            // Inputlar
+            
             int startY = 90;
 
-            // YENİ: Kullanıcı Adı Kutusu
+            
             txtUsername = CreateModernTextBox("Kullanıcı Adı (Giriş için)", 300, startY);
             txtUsername.Width = 430;
 
@@ -70,7 +70,7 @@ namespace CampusEventManager
 
             this.Controls.AddRange(new Control[] { txtUsername, txtName, txtEmail, txtPassword });
 
-            // Kayıt Butonu
+            
             Button btnRegister = new Button
             {
                 Text = "KAYDI TAMAMLA",
@@ -86,7 +86,7 @@ namespace CampusEventManager
             btnRegister.Click += BtnRegister_Click;
             this.Controls.Add(btnRegister);
 
-            // Giriş Yap Linki
+            
             Label lblLogin = new Label { Text = "Zaten hesabın var mı? Giriş Yap", ForeColor = Color.Gray, Font = new Font("Segoe UI", 10, FontStyle.Underline), Location = new Point(420, startY + 330), AutoSize = true, Cursor = Cursors.Hand };
             lblLogin.Click += (s, e) => { new FormLogin().Show(); this.Hide(); };
             this.Controls.Add(lblLogin);
@@ -97,7 +97,7 @@ namespace CampusEventManager
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
-            // Boşluk kontrolüne txtUsername eklendi
+            
             if (CheckEmpty(txtUsername) || CheckEmpty(txtName) || CheckEmpty(txtEmail) || CheckEmpty(txtPassword))
             {
                 MessageBox.Show("Lütfen tüm alanları geçerli şekilde doldurunuz.");
@@ -108,23 +108,23 @@ namespace CampusEventManager
             {
                 User newUser = new User
                 {
-                    Username = txtUsername.Text, // Yeni Username atandı
+                    Username = txtUsername.Text, 
                     FullName = txtName.Text,
                     Email = txtEmail.Text,
                     Role = "STUDENT" 
                 };
 
-                // Backend metodu çağrılıyor
+                
                 _userDal.RegisterUser(newUser, txtPassword.Text);
                 
                 MessageBox.Show("Kayıt başarılı! Artık kullanıcı adınızla giriş yapabilirsiniz.", "Tebrikler", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 
                 new FormLogin().Show();
-                this.Hide(); // Kayıttan sonra gizle
+                this.Hide(); 
             }
             catch (Exception ex)
             {
-                // SQL Trigger'dan gelen "Sadece @edu.tr..." hatası tam burada yakalanır
+                
                 MessageBox.Show(ex.Message, "Kayıt Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

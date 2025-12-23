@@ -8,12 +8,12 @@ namespace CampusEventManager
 {
     public class FormCategories : Form
     {
-        // UI Elemanları
+        
         private ListBox lstCategories;
         private TextBox txtName;
         private Button btnAdd, btnDelete;
         
-        // Veri Katmanı
+        
         private CommonDal _commonDal;
 
         public FormCategories()
@@ -21,7 +21,7 @@ namespace CampusEventManager
             this.Text = "Kategori Yönetimi";
             this.Size = new Size(400, 500);
             this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow; // Sadece kapatma tuşu olsun
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow; 
 
             _commonDal = new CommonDal();
             InitializeUI();
@@ -33,11 +33,11 @@ namespace CampusEventManager
             Label lblTitle = new Label { Text = "Kategoriler", Location = new Point(20, 20), Font = new Font("Segoe UI", 12, FontStyle.Bold), AutoSize = true };
             this.Controls.Add(lblTitle);
 
-            // 1. LİSTE (Kategorileri gösteren kutu)
+            
             lstCategories = new ListBox { Location = new Point(20, 50), Size = new Size(340, 300), Font = new Font("Segoe UI", 10) };
             this.Controls.Add(lstCategories);
 
-            // 2. EKLEME ALANI
+            
             txtName = new TextBox { Location = new Point(20, 370), Size = new Size(240, 30), Font = new Font("Segoe UI", 10), PlaceholderText = "Kategori Adı..." };
             this.Controls.Add(txtName);
 
@@ -45,7 +45,7 @@ namespace CampusEventManager
             btnAdd.Click += BtnAdd_Click;
             this.Controls.Add(btnAdd);
 
-            // 3. SİLME BUTONU
+            
             btnDelete = new Button { Text = "Seçili Kategoriyi Sil", Location = new Point(20, 415), Size = new Size(340, 35), BackColor = Color.IndianRed, ForeColor = Color.White, FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             btnDelete.Click += BtnDelete_Click;
             this.Controls.Add(btnDelete);
@@ -58,10 +58,10 @@ namespace CampusEventManager
                 lstCategories.Items.Clear();
                 var cats = _commonDal.GetAllCategories();
                 
-                // Kategorileri ListBox'a ekle
+                
                 foreach (var cat in cats)
                 {
-                    // Hem adını gösterip hem ID'sini saklamak için özel nesne ekliyoruz
+                    
                     lstCategories.Items.Add(new CategoryItem { Id = cat.CategoryId, Name = cat.CategoryName });
                 }
             }
@@ -75,7 +75,7 @@ namespace CampusEventManager
             {
                 _commonDal.AddCategory(txtName.Text.Trim());
                 txtName.Clear();
-                LoadData(); // Listeyi yenile
+                LoadData(); 
                 MessageBox.Show("Kategori eklendi.");
             }
             catch (Exception ex) { MessageBox.Show("Hata: " + ex.Message); }
@@ -89,7 +89,7 @@ namespace CampusEventManager
                 return;
             }
             
-            // Seçili öğeyi al
+            
             var selectedItem = (CategoryItem)lstCategories.SelectedItem;
 
             if (MessageBox.Show($"'{selectedItem.Name}' kategorisini silmek istediğine emin misin?\n(Dikkat: Bu kategoriye bağlı etkinlikler etkilenebilir!)", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -97,23 +97,23 @@ namespace CampusEventManager
                 try
                 {
                     _commonDal.DeleteCategory(selectedItem.Id);
-                    LoadData(); // Listeyi yenile
+                    LoadData(); 
                     MessageBox.Show("Kategori silindi.");
                 }
                 catch (Exception ex) 
                 { 
-                    // Yabancı anahtar hatası (Foreign Key) olursa burası çalışır
+                    
                     MessageBox.Show("Bu kategori SİLİNEMEZ çünkü şu an bazı etkinliklerde kullanılıyor!\nÖnce o etkinlikleri silmelisiniz.", "Engellendi", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                 }
             }
         }
 
-        // ListBox içinde ID ve İsim tutmak için yardımcı sınıf
+        
         private class CategoryItem
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public override string ToString() => Name; // ListBox'ta sadece isim görünür
+            public override string ToString() => Name; 
         }
     }
 }

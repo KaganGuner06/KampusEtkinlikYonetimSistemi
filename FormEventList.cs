@@ -9,26 +9,26 @@ namespace CampusEventManager
 {
     public partial class FormEventList : Form
     {
-        // Grid ve Paneller
+        
         private DataGridView dgvEvents;
         private Panel pnlTop; 
         
-        // --- YÖNETİCİ ARAÇLARI ---
+        
         private GroupBox grpAdminTools;
         private TextBox txtTitle, txtLocation, txtQuota;
         private DateTimePicker dtpDate;
         private ComboBox cmbCategory, cmbClub;
         private Button btnAdd, btnUpdate, btnDelete;
         
-        // --- ÖĞRENCİ ARAÇLARI ---
+        
         private Button btnApply;
         private ComboBox cmbFilterCat;
         private Button btnFilter;
-        // Tarih filtresi eklendi (Hata vermemesi için)
+        
         private DateTimePicker dtpFilterDate; 
         private Label lblFilterDate;
 
-        // Veri Katmanı
+        
         private EventDal _eventDal;
         private AppDal _appDal;
         private CommonDal _commonDal;
@@ -47,7 +47,7 @@ namespace CampusEventManager
 
             SetupUI();
             
-            // Eğer session yoksa hata vermesin diye kontrol
+            
             if (Session.CurrentUser != null)
             {
                 ApplyRoleLogic();
@@ -58,14 +58,14 @@ namespace CampusEventManager
 
         private void SetupUI()
         {
-            // 1. ÜST PANEL
+            
             pnlTop = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = Color.WhiteSmoke, Padding = new Padding(10) };
             this.Controls.Add(pnlTop);
 
-            // 2. YÖNETİCİ PANELİ
+            
             grpAdminTools = new GroupBox { Text = "Yönetici İşlemleri", Dock = DockStyle.Top, Height = 170, Visible = false, BackColor = Color.AliceBlue };
             
-            // --- 1. SATIR ---
+            
             Label l1 = new Label { Text = "Başlık:", Location = new Point(20, 30), AutoSize = true };
             txtTitle = new TextBox { Location = new Point(90, 27), Width = 180 };
             
@@ -81,7 +81,7 @@ namespace CampusEventManager
             };
             btnCatManage.Click += (s, e) => { new FormCategories().ShowDialog(); LoadComboBoxes(); };
 
-            // --- 2. SATIR ---
+            
             Label l4 = new Label { Text = "Konum:", Location = new Point(20, 75), AutoSize = true };
             txtLocation = new TextBox { Location = new Point(90, 72), Width = 180 };
 
@@ -91,7 +91,7 @@ namespace CampusEventManager
             Label l6 = new Label { Text = "Kulüp:", Location = new Point(520, 75), AutoSize = true };
             cmbClub = new ComboBox { Location = new Point(570, 72), Width = 190, DropDownStyle = ComboBoxStyle.DropDownList };
 
-            // --- 3. SATIR ---
+            
             btnAdd = new Button { Text = "EKLE", Location = new Point(20, 120), Width = 100, Height = 35, BackColor = Color.LightGreen };
             btnAdd.Click += BtnAdd_Click;
 
@@ -104,7 +104,7 @@ namespace CampusEventManager
             grpAdminTools.Controls.AddRange(new Control[] { l1, txtTitle, l2, dtpDate, l3, txtQuota, btnCatManage, l4, txtLocation, l5, cmbCategory, l6, cmbClub, btnAdd, btnUpdate, btnDelete });
             this.Controls.Add(grpAdminTools);
 
-            // 3. LİSTE (GRID)
+            
             dgvEvents = new DataGridView {
                 Dock = DockStyle.Fill,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
@@ -130,27 +130,27 @@ namespace CampusEventManager
 
             if (role == "CLUB_MANAGER" || role == "ADMIN")
             {
-                // YÖNETİCİ
+                
                 grpAdminTools.Visible = true; 
                 LoadComboBoxes(); 
             }
             else
             {
-                // ÖĞRENCİ
+                
                 grpAdminTools.Visible = false;
                 
-                // 1. Kategori Filtresi
+                
                 Label lblFilter = new Label { Text = "Kategori:", Location = new Point(20, 23), AutoSize = true, Font = new Font("Segoe UI", 9) };
                 cmbFilterCat = new ComboBox { Location = new Point(80, 20), Width = 150, DropDownStyle = ComboBoxStyle.DropDownList };
                 
-                // 2. Tarih Filtresi
+                
                 lblFilterDate = new Label { Text = "Tarih:", Location = new Point(240, 23), AutoSize = true, Font = new Font("Segoe UI", 9) };
                 dtpFilterDate = new DateTimePicker { Location = new Point(280, 20), Width = 110, Format = DateTimePickerFormat.Short };
 
-                // 3. Ara Butonu
+                
                 btnFilter = new Button { Text = "🔍 Ara", Location = new Point(400, 19), Width = 80, Height = 28, BackColor = Color.WhiteSmoke };
                 
-                // --- FİLTRELEME MANTIĞI (Burada Hata Vardı, Düzeltildi) ---
+                
                 btnFilter.Click += (s, e) => {
                     try {
                         int? catId = null;
@@ -161,7 +161,7 @@ namespace CampusEventManager
                     catch (Exception ex) { MessageBox.Show("Filtreleme hatası: " + ex.Message); }
                 };
 
-                // 4. Başvuru Butonu
+                
                 btnApply = new Button { Text = "✅ SEÇİLİ ETKİNLİĞE BAŞVUR", Location = new Point(750, 12), Width = 250, Height = 40, BackColor = Color.Gold, Font = new Font("Segoe UI", 10, FontStyle.Bold) };
                 btnApply.Click += BtnStudentApply_Click;
 
@@ -207,7 +207,7 @@ namespace CampusEventManager
                 if (dgvEvents.Columns.Contains("Quota")) dgvEvents.Columns["Quota"].HeaderText = "Kota";
                 if (dgvEvents.Columns.Contains("ClubName")) dgvEvents.Columns["ClubName"].HeaderText = "Kulüp";
                 
-                // PUAN GÖSTERİMİ
+                
                 if (dgvEvents.Columns.Contains("AverageRating"))
                 {
                     dgvEvents.Columns["AverageRating"].HeaderText = "Puan ⭐";

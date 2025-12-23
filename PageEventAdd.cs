@@ -12,14 +12,14 @@ namespace CampusEventManager
         private EventDal _eventDal = new EventDal();
         private CommonDal _commonDal = new CommonDal();
 
-        // Form Elemanları
+        
         private TextBox txtTitle, txtLocation, txtPosterUrl;
         private TextBox txtDescription;
         private NumericUpDown nudQuota;
         private DateTimePicker dtpDate;
         private ComboBox cmbCategory, cmbClub;
         
-        // YENİ EKLENEN: Yayında mı?
+        
         private CheckBox chkIsPublished; 
 
         public PageEventAdd()
@@ -33,7 +33,7 @@ namespace CampusEventManager
 
         private void InitializeUI()
         {
-            // 1. HEADER
+            
             Panel pnlHeader = new Panel { Dock = DockStyle.Top, Height = 60, BackColor = Color.WhiteSmoke };
             Button btnBack = new Button { Text = "← İptal", FlatStyle = FlatStyle.Flat, Location = new Point(20, 15), Size = new Size(100, 30), Cursor = Cursors.Hand };
             btnBack.Click += (s, e) => GoBack();
@@ -41,7 +41,7 @@ namespace CampusEventManager
             pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Controls.Add(btnBack);
 
-            // 2. FORM ALANI
+            
             Panel pnlForm = new Panel { Location = new Point(50, 80), Size = new Size(600, 800), AutoSize = true };
             int y = 0;
             
@@ -95,19 +95,19 @@ namespace CampusEventManager
             pnlForm.Controls.Add(btnChooseImg);
             y += 70;
 
-            // --- YENİ EKLENEN CHECKBOX ---
+            
             chkIsPublished = new CheckBox 
             { 
                 Text = "Etkinlik yayında olsun.", 
                 Location = new Point(0, y), 
-                Checked = true, // Varsayılan olarak yayınla seçili
+                Checked = true, 
                 Font = new Font("Segoe UI", 10),
                 AutoSize = true
             };
             pnlForm.Controls.Add(chkIsPublished);
-            y += 40; // Biraz boşluk bırak
+            y += 40; 
 
-            // KAYDET BUTONU
+            
             Button btnSave = new Button 
             { 
                 Text = "KAYDET", 
@@ -177,7 +177,7 @@ namespace CampusEventManager
                     ClubId = (int)cmbClub.SelectedValue,
                     PosterUrl = string.IsNullOrWhiteSpace(txtPosterUrl.Text) ? "default_event.jpg" : txtPosterUrl.Text,
                     
-                    // CHECKBOX DEĞERİNİ BURADA ALIYORUZ
+                    
                     IsPublished = chkIsPublished.Checked 
                 };
 

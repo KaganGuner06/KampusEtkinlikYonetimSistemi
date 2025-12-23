@@ -47,13 +47,13 @@ namespace CampusEventManager
 
         private void LoadClubs()
         {
-            // Tüm kulüpleri listele
+            
             dgvClubs.DataSource = _commonDal.GetAllClubs(); 
         }
 
         private void BtnJoin_Click(object? sender, EventArgs e)
         {
-            // 1. Seçim Kontrolü
+            
             if (dgvClubs.SelectedRows.Count == 0) 
             { 
                 MessageBox.Show("Lütfen listeden katılmak istediğiniz kulübü seçin."); 
@@ -65,24 +65,24 @@ namespace CampusEventManager
 
             try
             {
-                // Üye olmayı dene
+                
                 _clubDal.JoinClub(userId, clubId);
                 
-                // Başarılıysa
+                
                 MessageBox.Show("Tebrikler! Kulübe başarıyla üye oldunuz. 🎉", "Hoşgeldin", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                // --- AKILLI HATA YÖNETİMİ ---
                 
-                // Eğer hata "Unique Constraint" (uq_user_club) ise:
+                
+                
                 if (ex.Message.Contains("23505") || ex.Message.Contains("uq_user_club"))
                 {
                     MessageBox.Show("⚠️ Bu kulübe ZATEN üyesiniz.\nTekrar üye olmanıza gerek yok.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    // Başka bir hataysa göster
+                    
                     MessageBox.Show("İşlem Başarısız: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

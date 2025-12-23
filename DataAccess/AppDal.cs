@@ -7,13 +7,13 @@ namespace CampusEventManager.DataAccess
 {
     public class AppDal
     {
-        // 1. ETKİNLİĞE GÖRE BAŞVURULAR (Yönetici Paneli İçin)
+        
         public DataTable GetApplicationsByEvent(int eventId)
         {
             DataTable dt = new DataTable();
             using (var conn = DbHelper.GetConnection())
             {
-                // view_event_details view'ının event_applications tablosunu kullandığından emin ol
+                
                 string sql = "SELECT * FROM view_event_details WHERE event_id = @id ORDER BY applied_at DESC";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
@@ -24,12 +24,12 @@ namespace CampusEventManager.DataAccess
             return dt;
         }
 
-        // 2. BAŞVURU YAP (event_applications tablosuna sabitlendi)
+        
         public void ApplyToEvent(int userId, int eventId)
         {
             using (var conn = DbHelper.GetConnection())
             {
-                // Status ENUM hatasını önlemek için '0'::application_status şeklinde gönderiyoruz
+                
                 string sql = "INSERT INTO event_applications (user_id, event_id, status) VALUES (@uid, @eid, '0'::application_status)";
                 using (var cmd = new NpgsqlCommand(sql, conn))
                 {
@@ -40,7 +40,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // 3. BAŞVURU KONTROLÜ (event_applications tablosuna sabitlendi)
+        
         public bool IsUserApplied(int userId, int eventId)
         {
             bool result = false;
@@ -58,7 +58,7 @@ namespace CampusEventManager.DataAccess
             return result;
         }
 
-        // 4. BAŞVURU ONAYLA
+        
         public void ApproveApplication(int applicationId)
         {
             using (var conn = DbHelper.GetConnection())
@@ -72,13 +72,13 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // 5. BAŞVURULARIM SAYFASI (Görünmeme sorunu burada çözüldü)
+        
         public DataTable GetApplicationsByUser(int userId)
         {
             DataTable dt = new DataTable();
             using (var conn = DbHelper.GetConnection())
             {
-                // status::text ekleyerek ENUM/Tür hatasını engelledik
+                
                 string sql = @"
                     SELECT 
                         ea.application_id AS Id,
@@ -99,7 +99,7 @@ namespace CampusEventManager.DataAccess
             return dt;
         }
 
-        // 6. BAŞVURU SİL
+        
         public void RemoveApplication(int applicationId)
         {
             using (var conn = DbHelper.GetConnection())

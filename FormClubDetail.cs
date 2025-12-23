@@ -14,7 +14,7 @@ namespace CampusEventManager
         private EventDal _eventDal;
         private Club _currentClub;
 
-        // UI Elemanları
+        
         private PictureBox pbCover, pbLogo;
         private Label lblName, lblCategory;
         private TabControl tabControl;
@@ -25,7 +25,7 @@ namespace CampusEventManager
         {
             _clubId = clubId;
             
-            // Veritabanı nesnelerini oluştur
+            
             _clubDal = new ClubDal();
             _eventDal = new EventDal(); 
 
@@ -42,7 +42,7 @@ namespace CampusEventManager
 
             if (_currentClub == null)
             {
-                // Sessizce kapat, popup gösterme
+                
                 this.Close();
                 return;
             }
@@ -53,7 +53,7 @@ namespace CampusEventManager
 
         private void SetupUI()
         {
-            // Kapak ve Bilgi Paneli
+            
             pbCover = new PictureBox { Dock = DockStyle.Top, Height = 220, BackColor = Color.LightGray, SizeMode = PictureBoxSizeMode.StretchImage };
             this.Controls.Add(pbCover);
 
@@ -69,7 +69,7 @@ namespace CampusEventManager
             lblCategory = new Label { Text = "Kategori ID: " + _currentClub.CategoryId, Location = new Point(130, 55), Font = new Font("Segoe UI", 10, FontStyle.Italic), ForeColor = Color.Gray, AutoSize = true };
             pnlInfo.Controls.Add(lblCategory);
 
-            // Yetki Kontrolü
+            
             string role = Session.CurrentUser?.Role?.Trim()?.ToUpper() ?? "STUDENT";
             int currentUserId = Session.CurrentUser?.UserId ?? 0;
             bool isManager = _currentClub.ManagerUserId == currentUserId;
@@ -91,7 +91,7 @@ namespace CampusEventManager
                 pnlInfo.Controls.Add(btnJoin);
             }
 
-            // Sekmeler
+            
             tabControl = new TabControl { Dock = DockStyle.Fill, Font = new Font("Segoe UI", 11) };
             tabControl.TabPages.Add(new TabPage("Hakkında"));
             
@@ -138,7 +138,7 @@ namespace CampusEventManager
 
             FillAboutTab();
 
-            // --- ETKİNLİKLERİ YÜKLE (SESSİZ MOD) ---
+            
             try 
             {
                 if (_eventDal == null) _eventDal = new EventDal(); 
@@ -146,7 +146,7 @@ namespace CampusEventManager
                 var dt = _eventDal.GetEventsByClub(_clubId);
                 dgvEvents.DataSource = dt;
 
-                // Sütun adı kontrolü (Hata vermez, varsa yapar yoksa geçer)
+                
                 string colPuan = null;
                 if (dgvEvents.Columns.Contains("Puan")) colPuan = "Puan";
                 else if (dgvEvents.Columns.Contains("puan")) colPuan = "puan";
@@ -163,11 +163,11 @@ namespace CampusEventManager
             } 
             catch
             { 
-                // Hata olursa kullanıcıya popup gösterme, sadece logla veya sessiz kal.
-                // Bu sayede o sinir bozucu kutu çıkmaz.
+                
+                
             }
 
-            // --- ÜYELER ---
+            
             if (dgvMembers != null)
             {
                 try { dgvMembers.DataSource = _clubDal.GetClubMembers(_clubId); } catch { }
@@ -200,7 +200,7 @@ namespace CampusEventManager
             }
         }
 
-        // --- BUTON İŞLEVLERİ ---
+        
 
         private void BtnJoin_Click(object sender, EventArgs e)
         {

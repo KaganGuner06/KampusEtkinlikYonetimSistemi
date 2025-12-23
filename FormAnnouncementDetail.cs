@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace CampusEventManager
 {
-    // Bu sadece okuma amaçlı basit bir form
+    
     public class FormAnnouncementDetail : Form
     {
         public FormAnnouncementDetail(string title, string content, string clubName, string date)
@@ -16,15 +16,15 @@ namespace CampusEventManager
             this.MaximizeBox = false;
             this.BackColor = Color.White;
 
-            // Başlık
+            
             Label lblTitle = new Label { Text = title, Location = new Point(20, 20), Font = new Font("Segoe UI", 14, FontStyle.Bold), ForeColor = Color.DarkSlateBlue, AutoSize = true, MaximumSize = new Size(440, 0) };
             this.Controls.Add(lblTitle);
 
-            // Kulüp ve Tarih Bilgisi
+            
             Label lblInfo = new Label { Text = $"{clubName} • {date}", Location = new Point(20, lblTitle.Bottom + 10), Font = new Font("Segoe UI", 10, FontStyle.Italic), ForeColor = Color.Gray, AutoSize = true };
             this.Controls.Add(lblInfo);
 
-            // Mesaj İçeriği (Salt Okunur Kutu)
+            
             RichTextBox rtxt = new RichTextBox 
             { 
                 Text = content, 
@@ -37,10 +37,10 @@ namespace CampusEventManager
             };
             this.Controls.Add(rtxt);
 
-            // Kapat Butonu
+            
             Button btnClose = new Button { Text = "Kapat", Location = new Point(180, 320), Size = new Size(120, 35), BackColor = Color.Gray, ForeColor = Color.White, FlatStyle = FlatStyle.Flat };
             btnClose.Click += (s, e) => this.Close();
-            // this.Controls.Add(btnClose); // İstersen ekle, zaten X var.
+            
         }
     }
 }

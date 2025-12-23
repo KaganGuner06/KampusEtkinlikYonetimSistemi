@@ -22,11 +22,11 @@ namespace CampusEventManager
 
         private void InitializeUI()
         {
-            // HEADER
+            
             Panel pnlHeader = new Panel { Dock = DockStyle.Top, Height = 80, BackColor = Color.White, Padding = new Padding(30, 20, 30, 0) };
             Label lblTitle = new Label { Text = "Duyurular", Font = new Font("Segoe UI", 20, FontStyle.Bold), ForeColor = ColorTranslator.FromHtml("#2C3E50"), AutoSize = true, Location = new Point(30, 20) };
             
-            // ADMIN/YÖNETİCİ Butonu
+            
             string role = Session.CurrentUser?.Role?.Trim()?.ToUpper() ?? "";
             if (role == "ADMIN" || role == "CLUB_MANAGER")
             {
@@ -38,7 +38,7 @@ namespace CampusEventManager
             }
             pnlHeader.Controls.Add(lblTitle);
 
-            // TABLO
+            
             dgvAnnouncements = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -52,7 +52,7 @@ namespace CampusEventManager
                 RowTemplate = { Height = 40 }
             };
 
-            // Görsel Ayarlar
+            
             dgvAnnouncements.EnableHeadersVisualStyles = false;
             dgvAnnouncements.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml("#34495E");
             dgvAnnouncements.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
@@ -61,22 +61,22 @@ namespace CampusEventManager
             dgvAnnouncements.DefaultCellStyle.Font = new Font("Segoe UI", 10);
             dgvAnnouncements.DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#1ABC9C");
 
-            // --- YENİ EKLENEN KISIM: ÇİFT TIKLAMA OLAYI ---
+            
             dgvAnnouncements.CellDoubleClick += (s, e) => 
             {
-                if (e.RowIndex >= 0) // Başlığa tıklanmadıysa
+                if (e.RowIndex >= 0) 
                 {
-                    // Seçili satırdaki verileri al (SQL sorgundaki AS isimlerine dikkat!)
+                    
                     string title = dgvAnnouncements.Rows[e.RowIndex].Cells["Konu"].Value.ToString();
                     string content = dgvAnnouncements.Rows[e.RowIndex].Cells["Mesaj"].Value.ToString();
                     string club = dgvAnnouncements.Rows[e.RowIndex].Cells["Kulüp"].Value.ToString();
                     string date = dgvAnnouncements.Rows[e.RowIndex].Cells["Tarih"].Value.ToString();
 
-                    // Detay penceresini aç
+                    
                     new FormAnnouncementDetail(title, content, club, date).ShowDialog();
                 }
             };
-            // ----------------------------------------------
+            
 
             Panel pnlGridContainer = new Panel { Dock = DockStyle.Fill, Padding = new Padding(30) };
             pnlGridContainer.Controls.Add(dgvAnnouncements);
@@ -90,7 +90,7 @@ namespace CampusEventManager
             try
             {
                 dgvAnnouncements.DataSource = _announcementDal.GetAllAnnouncements();
-                // SQL sorgusundaki 'AS' isimlerine göre sütun ayarları
+                
                 if (dgvAnnouncements.Columns["Konu"] != null) dgvAnnouncements.Columns["Konu"].FillWeight = 30;
                 if (dgvAnnouncements.Columns["Mesaj"] != null) dgvAnnouncements.Columns["Mesaj"].FillWeight = 50; 
                 if (dgvAnnouncements.Columns["Kulüp"] != null) dgvAnnouncements.Columns["Kulüp"].FillWeight = 15;

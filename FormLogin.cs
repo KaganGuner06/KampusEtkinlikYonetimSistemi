@@ -11,18 +11,18 @@ namespace CampusEventManager
     {
         private System.ComponentModel.IContainer components = null;
 
-        // --- Renk Paleti ---
+        
         private readonly Color clrSidebar = ColorTranslator.FromHtml("#2C3E50");
         private readonly Color clrBackground = ColorTranslator.FromHtml("#ECF0F1");
         private readonly Color clrAccent = ColorTranslator.FromHtml("#1ABC9C");
         private readonly Color clrText = ColorTranslator.FromHtml("#34495E");
 
-        // --- Data Access ---
+        
         private UserDal _userDal = new UserDal(); 
         
-        // --- UI Kontrolleri ---
+        
         private Panel pnlLeft;
-        private TextBox txtUsername; // txtEmail yerine txtUsername yapıldı
+        private TextBox txtUsername; 
         private TextBox txtPassword;
         private Label lblFeedback;
 
@@ -30,7 +30,7 @@ namespace CampusEventManager
         {
             InitializeComponent();
             SetupCustomUI();
-            AddDevButtons(); // Geliştirici butonları yeni username'e göre güncellendi
+            AddDevButtons(); 
         }
 
         private void InitializeComponent()
@@ -46,7 +46,7 @@ namespace CampusEventManager
 
         private void SetupCustomUI()
         {
-            // 1. SOL TARAF (Sidebar/Logo)
+            
             pnlLeft = new Panel { Dock = DockStyle.Left, Width = 250, BackColor = clrSidebar };
             Label lblBrand = new Label {
                 Text = "GİRİŞ PANELİ",
@@ -58,10 +58,10 @@ namespace CampusEventManager
             };
             pnlLeft.Controls.Add(lblBrand);
 
-            // 2. SAĞ TARAF (Form Alanı)
+            
             this.BackColor = clrBackground;
             
-            // Kapatma (X) Butonu
+            
             Label lblClose = new Label {
                 Text = "X",
                 ForeColor = clrText,
@@ -72,7 +72,7 @@ namespace CampusEventManager
             };
             lblClose.Click += (s, e) => Application.Exit();
 
-            // Başlık
+            
             Label lblTitle = new Label {
                 Text = "SİSTEME GİRİŞ",
                 ForeColor = clrText,
@@ -81,14 +81,14 @@ namespace CampusEventManager
                 AutoSize = true
             };
 
-            // Username TextBox (Email yerine artık bu kullanılıyor)
+            
             txtUsername = CreateModernTextBox("Kullanıcı Adı", 300, 120);
             
-            // Password TextBox
+            
             txtPassword = CreateModernTextBox("Şifre", 300, 180);
             txtPassword.Tag = "isPassword"; 
 
-            // Hata Mesajı Label
+            
             lblFeedback = new Label {
                 Text = "",
                 ForeColor = Color.Red,
@@ -97,7 +97,7 @@ namespace CampusEventManager
                 AutoSize = true
             };
 
-            // Giriş Butonu
+            
             Button btnLogin = new Button {
                 Text = "GİRİŞ YAP",
                 BackColor = clrAccent,
@@ -111,7 +111,7 @@ namespace CampusEventManager
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.Click += BtnLogin_Click;
 
-            // Kayıt Ol Linki
+            
             Label lblReg = new Label { 
                 Text = "Hesabın yok mu? Kayıt Ol", 
                 ForeColor = Color.Blue, 
@@ -126,7 +126,7 @@ namespace CampusEventManager
                 this.Hide();
             };
 
-            // Kontrolleri Forma Ekle
+            
             this.Controls.Add(lblReg);
             this.Controls.Add(lblFeedback);
             this.Controls.Add(btnLogin);
@@ -136,7 +136,7 @@ namespace CampusEventManager
             this.Controls.Add(lblClose);
             this.Controls.Add(pnlLeft);
 
-            // Sürükleme Olayları
+            
             pnlLeft.MouseDown += Form_MouseDown;
             this.MouseDown += Form_MouseDown;
         }
@@ -172,7 +172,7 @@ namespace CampusEventManager
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text; // Email yerine username alıyoruz
+            string username = txtUsername.Text; 
             string pass = txtPassword.Text;
 
             if (username == "Kullanıcı Adı" || string.IsNullOrWhiteSpace(username)) {
@@ -181,7 +181,7 @@ namespace CampusEventManager
             }
 
             try {
-                // UserDal artık username ve şifre bekliyor
+                
                 User user = _userDal.Login(username, pass);
 
                 if (user != null) {
@@ -212,7 +212,7 @@ namespace CampusEventManager
 
         private void AddDevButtons()
         {
-            // 1. Admin Hızlı Giriş
+            
             Button btnDevAdmin = new Button { 
                 Text = "Hızlı Admin", 
                 Location = new Point(300, 320), 
@@ -228,12 +228,12 @@ namespace CampusEventManager
                 txtUsername.ForeColor = clrText;
                 txtPassword.ForeColor = clrText;
                 txtPassword.PasswordChar = '●';
-                txtUsername.Text = "admin"; // SQL Seed datasındaki username
+                txtUsername.Text = "admin"; 
                 txtPassword.Text = "12345"; 
                 BtnLogin_Click(null, null); 
             };
 
-            // 2. Öğrenci Hızlı Giriş
+            
             Button btnDevStudent = new Button { 
                 Text = "Hızlı Öğrenci", 
                 Location = new Point(510, 320), 

@@ -7,8 +7,8 @@ namespace CampusEventManager
 {
     public partial class FormRateEvent : Form
     {
-        // DÜZELTME: 'public property' yerine 'private field' yaptık.
-        // Artık sarı uyarı vermeyecek.
+        
+        
         private int _eventId; 
         
         private ComboBox cmbRating;
@@ -18,7 +18,7 @@ namespace CampusEventManager
 
         public FormRateEvent(int eventId, string eventTitle)
         {
-            // Gelen ID'yi içeriye kaydediyoruz
+            
             this._eventId = eventId;
             
             this.Text = "Değerlendir: " + eventTitle;
@@ -34,7 +34,7 @@ namespace CampusEventManager
             Label l1 = new Label { Text = "Puanınız (1-5):", Location = new Point(20, 20), AutoSize = true };
             cmbRating = new ComboBox { Location = new Point(20, 45), Width = 340, DropDownStyle = ComboBoxStyle.DropDownList };
             cmbRating.Items.AddRange(new object[] { "1 - Kötü", "2 - Orta", "3 - İyi", "4 - Çok İyi", "5 - Mükemmel" });
-            cmbRating.SelectedIndex = 4; // Varsayılan 5 yıldız
+            cmbRating.SelectedIndex = 4; 
 
             Label l2 = new Label { Text = "Yorumunuz:", Location = new Point(20, 80), AutoSize = true };
             txtComment = new TextBox { Location = new Point(20, 105), Width = 340, Height = 80, Multiline = true };
@@ -53,7 +53,7 @@ namespace CampusEventManager
             {
                 int rating = cmbRating.SelectedIndex + 1; 
                 
-                // _eventId değişkenini kullanıyoruz
+                
                 _feedDal.GiveFeedback(this._eventId, Session.CurrentUser!.UserId, rating, txtComment.Text);
                 
                 MessageBox.Show("Geri bildiriminiz için teşekkürler! ⭐");

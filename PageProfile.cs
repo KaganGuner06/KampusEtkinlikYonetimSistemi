@@ -24,7 +24,7 @@ namespace CampusEventManager
 
             Label lblTitle = new Label { Text = "👤 Profil Bilgilerim", Font = new Font("Segoe UI", 18, FontStyle.Bold), Location = new Point(30, 20), AutoSize = true };
             
-            // Bilgi Giriş Alanları
+            
             int startY = 80;
             txtName = CreateField("Ad Soyad:", user?.FullName, startY);
             txtUsername = CreateField("Kullanıcı Adı:", user?.Username, startY + 70);

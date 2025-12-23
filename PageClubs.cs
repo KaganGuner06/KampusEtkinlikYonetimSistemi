@@ -17,7 +17,7 @@ namespace CampusEventManager
         private FlowLayoutPanel pnlContainer;
         private List<Category> _categories; 
 
-        // Kart Ayarları
+        
         private int CardWidth = 300;
         private int CardHeight = 350;
         private int CardMargin = 20;
@@ -60,7 +60,7 @@ namespace CampusEventManager
 
         private void InitializeUI()
         {
-            // 1. ÜST PANEL
+            
             Panel pnlHeader = new Panel
             {
                 Dock = DockStyle.Top,
@@ -78,11 +78,11 @@ namespace CampusEventManager
                 Location = new Point(30, 20)
             };
 
-            // ADMIN İSE "YENİ KULÜP EKLE" BUTONU
-            // Not: Null kontrolü ve Trim eklendi
+            
+            
             string role = Session.CurrentUser?.Role?.Trim()?.ToUpper() ?? "";
             
-            // Eğer rol ADMIN ise butonu göster
+            
             if (role == "ADMIN" || role == "CLUB_MANAGER")
             {
                 Button btnAdd = new Button
@@ -99,11 +99,11 @@ namespace CampusEventManager
                 };
                 btnAdd.FlatAppearance.BorderSize = 0;
 
-                // --- GÜNCELLEME 1: EKLEME FORMUNU BAĞLADIK ---
+                
                 btnAdd.Click += (s, e) => 
                 {
                     FormAddClub frm = new FormAddClub();
-                    // Form kapandığında (DialogResult.OK dönerse) listeyi yenile
+                    
                     if (frm.ShowDialog() == DialogResult.OK)
                     {
                         LoadClubs();
@@ -115,7 +115,7 @@ namespace CampusEventManager
 
             pnlHeader.Controls.Add(lblTitle);
 
-            // 2. KART ALANI
+            
             pnlContainer = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -146,7 +146,7 @@ namespace CampusEventManager
                     {
                         pnlContainer.Controls.Add(CreateClubCard(club));
                     }
-                    // Layout'u zorla tetikle (Hizalama için)
+                    
                     this.PerformLayout();
                 }
             }
@@ -158,7 +158,7 @@ namespace CampusEventManager
 
         private Panel CreateClubCard(Club club)
         {
-            // Kart Paneli
+            
             Panel card = new Panel
             {
                 Width = CardWidth,
@@ -167,7 +167,7 @@ namespace CampusEventManager
                 Margin = new Padding(CardMargin)
             };
 
-            // 1. Logo
+            
             PictureBox pbLogo = new PictureBox
             {
                 Dock = DockStyle.Top,
@@ -180,12 +180,12 @@ namespace CampusEventManager
                 try { pbLogo.Image = Image.FromFile(club.LogoUrl); } catch { }
             else
             {
-                // Resim yoksa baş harf
+                
                 string initial = string.IsNullOrEmpty(club.ClubName) ? "?" : club.ClubName.Substring(0, 1);
                 pbLogo.Controls.Add(new Label { Text = initial, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 50, FontStyle.Bold), ForeColor = Color.Gray });
             }
 
-            // 2. Bilgiler
+            
             Panel pnlInfo = new Panel { Dock = DockStyle.Fill, Padding = new Padding(15) };
 
             string catName = "Genel";
@@ -210,7 +210,7 @@ namespace CampusEventManager
                 Height = 50
             };
 
-            // Buton
+            
             Button btnDetail = new Button
             {
                 Text = "Kulübü İncele",
@@ -224,7 +224,7 @@ namespace CampusEventManager
             };
             btnDetail.FlatAppearance.BorderSize = 0;
 
-            // --- GÜNCELLEME 2: DETAY FORMUNU BAĞLADIK ---
+            
             btnDetail.Click += (s, e) => 
             {
                 FormClubDetail frm = new FormClubDetail(club.ClubId);

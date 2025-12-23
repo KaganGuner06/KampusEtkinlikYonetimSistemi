@@ -7,7 +7,7 @@ namespace CampusEventManager.DataAccess
 {
     public class CommonDal
     {
-        // --- KATEGORİ İŞLEMLERİ ---
+        
 
         public List<Category> GetAllCategories()
         {
@@ -46,7 +46,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // Bu metot eksikti, kategori silme butonu için gerekli
+        
         public void DeleteCategory(int id)
         {
             using (var conn = DbHelper.GetConnection())
@@ -60,7 +60,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // --- KULÜP İŞLEMLERİ ---
+        
 
         public List<Club> GetAllClubs()
         {
@@ -86,7 +86,7 @@ namespace CampusEventManager.DataAccess
             return list;
         }
 
-        // --- ÖĞRENCİ İŞLEMLERİ ---
+        
 
         public List<User> GetAllStudents()
         {
@@ -113,14 +113,14 @@ namespace CampusEventManager.DataAccess
             return list;
         }
 
-        // --- DASHBOARD (ANASAYFA) İSTATİSTİKLERİ ---
+        
 
         public DashboardStats GetDashboardStats()
         {
             DashboardStats stats = new DashboardStats();
             using (var conn = DbHelper.GetConnection())
             {
-                // SQL View'dan veri çekiyoruz
+                
                 string sql = "SELECT * FROM view_dashboard_stats";
                 
                 using (var cmd = new NpgsqlCommand(sql, conn))
@@ -129,11 +129,11 @@ namespace CampusEventManager.DataAccess
                     {
                         if (reader.Read())
                         {
-                            // View sütun isimleri ile eşleşmeli:
-                            // total_clubs, active_events, pending_apps
+                            
+                            
                             
                             stats.TotalClubs = Convert.ToInt32(reader["total_clubs"]);
-                            stats.TotalEvents = Convert.ToInt32(reader["active_events"]); // Burası düzeltildi
+                            stats.TotalEvents = Convert.ToInt32(reader["active_events"]); 
                             stats.TotalApplications = Convert.ToInt32(reader["pending_apps"]); 
                         }
                     }
@@ -143,7 +143,7 @@ namespace CampusEventManager.DataAccess
         }
     }
 
-    // Dashboard verilerini taşımak için yardımcı sınıf
+    
     public class DashboardStats
     {
         public int TotalClubs { get; set; }

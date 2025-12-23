@@ -6,7 +6,7 @@ namespace CampusEventManager.DataAccess
 {
     public class FeedbackDal
     {
-        // Puan Verme
+        
         public void GiveFeedback(int eventId, int userId, int rating, string comment)
         {
             using (var conn = DbHelper.GetConnection())
@@ -23,7 +23,7 @@ namespace CampusEventManager.DataAccess
             }
         }
 
-        // Kullanıcı bu etkinliğe daha önce puan vermiş mi?
+        
         public bool HasFeedback(int eventId, int userId)
         {
             using (var conn = DbHelper.GetConnection())

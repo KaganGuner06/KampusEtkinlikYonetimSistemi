@@ -16,7 +16,7 @@ namespace CampusEventManager
         private CheckBox chkApprovalRequired;
         private Button btnSave;
         
-        // Düzenleme için gerekli değişkenler
+        
         private Club _existingClub = null;
         private string logoPath = null;
         private string coverPath = null;
@@ -24,12 +24,12 @@ namespace CampusEventManager
         private ClubDal _clubDal;
         private CommonDal _commonDal;
 
-        // YAPICI METOT: Parametre alabilir (Düzenleme için)
+        
         public FormAddClub(Club clubToEdit = null)
         {
             _existingClub = clubToEdit;
             
-            // Başlık ve Boyut Ayarları
+            
             this.Text = _existingClub == null ? "YENİ KULÜP OLUŞTUR" : "KULÜBÜ DÜZENLE";
             this.Size = new Size(900, 700);
             this.StartPosition = FormStartPosition.CenterParent;
@@ -43,7 +43,7 @@ namespace CampusEventManager
             SetupUI();
             LoadCategories();
 
-            // Eğer düzenleme modundaysak verileri doldur
+            
             if (_existingClub != null)
             {
                 FillData();
@@ -52,15 +52,15 @@ namespace CampusEventManager
 
         private void SetupUI()
         {
-            // Sol Panel (Veri Girişi)
+            
             Panel pnlLeft = new Panel { Location = new Point(20, 20), Size = new Size(420, 600), BackColor = Color.White };
             this.Controls.Add(pnlLeft);
 
-            // Sağ Panel (Görseller)
+            
             Panel pnlRight = new Panel { Location = new Point(460, 20), Size = new Size(400, 600), BackColor = Color.White };
             this.Controls.Add(pnlRight);
 
-            // --- SOL KISIM ---
+            
             int y = 20;
             Label lblTitle = new Label { Text = "Kulüp Bilgileri", Font = new Font("Segoe UI", 12, FontStyle.Bold), Location = new Point(20, y), AutoSize = true, ForeColor = Color.DarkSlateBlue };
             pnlLeft.Controls.Add(lblTitle); y += 40;
@@ -80,30 +80,30 @@ namespace CampusEventManager
             rtxtFullDesc = new RichTextBox { Location = new Point(20, y + 25), Width = 380, Height = 120, BorderStyle = BorderStyle.FixedSingle };
             pnlLeft.Controls.Add(lDesc); pnlLeft.Controls.Add(rtxtFullDesc);
 
-            // --- SAĞ KISIM ---
+            
             int ry = 20;
             Label lblImg = new Label { Text = "Görseller & Medya", Font = new Font("Segoe UI", 12, FontStyle.Bold), Location = new Point(20, ry), AutoSize = true, ForeColor = Color.DarkSlateBlue };
             pnlRight.Controls.Add(lblImg); ry += 40;
 
-            // Logo
+            
             Label lLogo = new Label { Text = "Logo:", Location = new Point(20, ry), AutoSize = true };
             pbLogo = new PictureBox { Location = new Point(20, ry + 25), Size = new Size(100, 100), BorderStyle = BorderStyle.FixedSingle, SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.WhiteSmoke };
             Button btnLogo = new Button { Text = "Seç", Location = new Point(130, ry + 25), Width = 60 };
             btnLogo.Click += (s, e) => SelectImage(pbLogo, ref logoPath);
             pnlRight.Controls.Add(lLogo); pnlRight.Controls.Add(pbLogo); pnlRight.Controls.Add(btnLogo); ry += 140;
 
-            // Kapak
+            
             Label lCover = new Label { Text = "Kapak Fotoğrafı:", Location = new Point(20, ry), AutoSize = true };
             pbCover = new PictureBox { Location = new Point(20, ry + 25), Size = new Size(350, 120), BorderStyle = BorderStyle.FixedSingle, SizeMode = PictureBoxSizeMode.StretchImage, BackColor = Color.WhiteSmoke };
             Button btnCover = new Button { Text = "Seç", Location = new Point(20, ry + 150), Width = 350 };
             btnCover.Click += (s, e) => SelectImage(pbCover, ref coverPath);
             pnlRight.Controls.Add(lCover); pnlRight.Controls.Add(pbCover); pnlRight.Controls.Add(btnCover); ry += 200;
 
-            // Sosyal
+            
             AddLabelAndInput(pnlRight, "Instagram Link:", ref ry, out txtInstagram);
             AddLabelAndInput(pnlRight, "LinkedIn Link:", ref ry, out txtLinkedin);
 
-            // Kaydet
+            
             btnSave = new Button { 
                 Text = _existingClub == null ? "KULÜBÜ OLUŞTUR" : "DEĞİŞİKLİKLERİ KAYDET", 
                 Location = new Point(20, 530), Size = new Size(360, 50), 
@@ -139,7 +139,7 @@ namespace CampusEventManager
             }
         }
 
-        // --- YENİ EKLENEN KISIM: Verileri Doldur ---
+        
         private void FillData()
         {
             txtName.Text = _existingClub.ClubName;
@@ -150,11 +150,11 @@ namespace CampusEventManager
             txtInstagram.Text = _existingClub.InstagramLink;
             txtLinkedin.Text = _existingClub.LinkedinLink;
             
-            // Resim yolları
+            
             logoPath = _existingClub.LogoUrl;
             coverPath = _existingClub.CoverUrl;
 
-            // Resimleri yüklemeyi dene
+            
             try { if (!string.IsNullOrEmpty(logoPath) && File.Exists(logoPath)) pbLogo.Image = Image.FromFile(logoPath); } catch {}
             try { if (!string.IsNullOrEmpty(coverPath) && File.Exists(coverPath)) pbCover.Image = Image.FromFile(coverPath); } catch {}
         }
@@ -171,7 +171,7 @@ namespace CampusEventManager
                     Description = txtShortDesc.Text,
                     FullDescription = rtxtFullDesc.Text,
                     CategoryId = cmbCategory.SelectedValue != null ? (int)cmbCategory.SelectedValue : 1,
-                    // Eğer yeni ekliyorsak şu anki kullanıcı, düzenliyorsak eski yönetici kalır
+                    
                     ManagerUserId = _existingClub == null ? (Session.CurrentUser != null ? Session.CurrentUser.UserId : 1) : _existingClub.ManagerUserId,
                     IsActive = true,
                     RequiresApproval = chkApprovalRequired.Checked,
@@ -183,13 +183,13 @@ namespace CampusEventManager
 
                 if (_existingClub == null)
                 {
-                    // EKLEME
+                    
                     _clubDal.AddClub(c);
                     MessageBox.Show("Kulüp başarıyla oluşturuldu!");
                 }
                 else
                 {
-                    // GÜNCELLEME (ID'yi aktarmayı unutma!)
+                    
                     c.ClubId = _existingClub.ClubId;
                     _clubDal.UpdateClub(c);
                     MessageBox.Show("Kulüp bilgileri güncellendi!");

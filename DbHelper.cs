@@ -5,7 +5,7 @@ namespace CampusEventManager
 {
     public static class DbHelper
     {
-        // Şifreni aşağıya doğru şekilde yaz:
+        
         private static string connectionString = "Host=localhost;Port=5432;Database=CampusFinalDB;Username=postgres;Password=kaganguner";
 
         public static NpgsqlConnection GetConnection()
