@@ -8,7 +8,7 @@ Bu proje, üniversite kampüsündeki etkinliklerin yönetilmesi, öğrenci başv
 - **Trigger Kullanımı:** Kontenjan dolduğunda otomatik başvuru kapatma, kayıt olunurken üniversite e-mail kontrolü yapma.
 - **Stored Procedure:** Gelişmiş raporlama ve onay işlemleri.
 
-## Kurulum (Hocamız İçin)
+## Kurulum
 1. Projeyi bilgisayarınıza indirin.
 2. `Database` klasöründeki **setup.sql** dosyasını pgAdmin'de "Query Tool" ile açıp çalıştırarak veritabanını oluşturun.
 3. `DataAccess/DbHelper.cs` dosyasındaki bağlantı şifresini kendi PostgreSQL şifrenizle güncelleyin.
